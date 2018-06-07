@@ -8,7 +8,7 @@ Function Start-RoutineCheckupTempFileCleanUp
         Write-Host -Object "Deleting temporary files in " -NoNewline
         Write-Host -Object $_ -NoNewline -ForegroundColor Cyan
         Write-Host -Object ":"
-        Get-ChildItem -Path (Join-Path -Path $_ -ChildPath "*") | ForEach-Object `
+        Get-ChildItem -Path (Join-Path -Path $_ -ChildPath "*") -ErrorAction SilentlyContinue | ForEach-Object `
         {
             Write-Host -Object "$([Char] 0x2022) Deleting " -NoNewline
             Write-Host -Object $_.Name -NoNewline -ForegroundColor Cyan
