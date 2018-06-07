@@ -61,7 +61,7 @@ Function Start-RoutineCheckupEventLogCleanUp
 			Write-Host -Object " event log to " -NoNewline
 			Write-Host -Object $ArchiveFileName -NoNewline -ForegroundColor Cyan
 			Write-Host -Object "... " -NoNewline
-			$_.BackupEventLog($ArchiveFileName) > $NULL 2>&1
+			$_.BackupEventLog((Join-Path -Path $EventLogBackupPath -ChildPath $ArchiveFileName)) > $NULL 2>&1
 			Write-Host -Object "Done." -ForegroundColor Green
 
 			Write-Host -Object "Clearing " -NoNewline
