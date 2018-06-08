@@ -25,7 +25,7 @@ Function Start-RoutineCheckupSurfaceDefects
 	$DiskDriveBadBlockTable = @{}
 	$DiskDriveDriveLetterTable = @{}
 
-	Write-Host -Object "Mapping disk drives with their NT namespace counterpart... " -NoNewline
+	Write-Host -Object "Mapping disk drives with their NT namespace counterparts... " -NoNewline
 	Get-WmiObject -Class Win32_DiskDrive | ForEach-Object `
 	{
 		$NTNameDiskDriveTable[(Get-NtSymbolicLinkObjectTargetName -LinkName $_.DeviceID)] = $_;
@@ -58,7 +58,7 @@ Function Start-RoutineCheckupSurfaceDefects
 
 		$NTNameDiskDriveTable.Keys | ForEach-Object `
 		{
-			if ($EventLogMessage -match $_)
+			if ($EventLogMessage -match ([Regex]::Escape($_)))
 			{
 				$DiskDriveBadBlockTable[$_] = $TRUE
 			}
