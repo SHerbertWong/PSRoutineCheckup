@@ -72,7 +72,7 @@ Function Start-RoutineCheckupFreeSpace
 		else
 		{
 			$FreeSpacePercentage = [Math]::Round($FreeSpace / $Capacity * 100)
-			
+
 			if ($FreeSpacePercentage -lt 50)
 			{
 				$ResultTextColour = [ConsoleColor]::Yellow
@@ -80,7 +80,7 @@ Function Start-RoutineCheckupFreeSpace
 			if ($FreeSpacePercentage -lt 25)
 			{
 				$ResultTextColour = [ConsoleColor]::Red
-			}	
+			}
 
 			Write-Host -Object "$FreeSpacePercentage% ($("{0:g3}" -f $FreeSpaceReadable)$FreeSpaceReadableUnit)" -ForegroundColor $ResultTextColour
 		}

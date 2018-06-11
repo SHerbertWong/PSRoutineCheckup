@@ -8,7 +8,7 @@ Function Start-RoutineCheckup
 	Start-RoutineCheckupSurfaceDefects
 	Write-Host
 	& CMD /C PAUSE
-	
+
 	Clear-Host
 	Write-Host
 	Write-Host -Object "Stage 2: Free space availability on logical drives"
@@ -29,9 +29,9 @@ Function Start-RoutineCheckup
 
 	Clear-Host
 	Write-Host
-    Write-Host -Object "Stage 4: Temporary file clean-up"
-    Write-Host -Object "================================"
-    Write-Host
+	Write-Host -Object "Stage 4: Temporary file clean-up"
+	Write-Host -Object "================================"
+	Write-Host
 	Start-RoutineCheckupTempFileCleanUp
 	Write-Host
 	& CMD /C PAUSE

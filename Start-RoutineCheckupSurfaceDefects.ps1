@@ -29,8 +29,8 @@ Function Start-RoutineCheckupSurfaceDefects
 	Get-WmiObject -Class Win32_DiskDrive | ForEach-Object `
 	{
 		$NTNameDiskDriveTable[(Get-NtSymbolicLinkObjectTargetName -LinkName $_.DeviceID)] = $_;
-		# For marking disk drives as containing bad blocks
-		$DiskDriveBadBlockTable[$_] = $FALSE
+		# For counting the number of bad-block related log entries
+		$DiskDriveBadBlockTable[$_] = 0
 		# For mapping between disk drives and DOS device paths
 		$DiskDriveDriveLetterTable[$_] = @()
 	}
@@ -51,7 +51,7 @@ Function Start-RoutineCheckupSurfaceDefects
 	}
 	Write-Host -Object "Done." -ForegroundColor Green
 
-	Write-Host -Object "Searching for bad block event records... " -NoNewline
+	Write-Host -Object "Searching for bad block event log entries... " -NoNewline
 	Get-EventLog -LogName System | Where-Object {$_.Source -eq "Disk" -and $_.EntryType -eq "Error" -and $_.EventID -eq 7} | ForEach-Object `
 	{
 		$EventLogMessage = $_.Message
@@ -60,7 +60,7 @@ Function Start-RoutineCheckupSurfaceDefects
 		{
 			if ($EventLogMessage -match ([Regex]::Escape($_)))
 			{
-				$DiskDriveBadBlockTable[$_] = $TRUE
+				$DiskDriveBadBlockTable[$_] += 1
 			}
 		}
 	}
@@ -79,9 +79,9 @@ Function Start-RoutineCheckupSurfaceDefects
 			Write-Host -Object ")" -NoNewline
 		}
 		Write-Host -Object ": " -NoNewline
-		if ($DiskDriveBadBlockTable[$_])
+		if ($DiskDriveBadBlockTable[$_] -gt 0)
 		{
-			Write-Host -Object "Faulty." -ForegroundColor Red
+			Write-Host -Object "$($DiskDriveBadBlockTable[$_]) reports." -ForegroundColor Red
 		}
 		else
 		{
